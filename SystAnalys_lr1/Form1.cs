@@ -97,7 +97,6 @@ namespace SystAnalys_lr1
             // selectButton.Enabled = true;
             drawVertexButton.Enabled = true;
             drawEdgeButton.Enabled = true;
-            // clearEdgesAllocate();
             G.clearSheet();
             G.drawALLGraph(V, E);
             sheet.Image = G.GetBitmap();
@@ -258,6 +257,8 @@ namespace SystAnalys_lr1
                             }
                         }
                         V.RemoveAt(i);
+                        clearEdgesAllocate();
+                        listBoxMatrix.Items.Clear();
                         flag = true;
                         break;
                     }
@@ -273,6 +274,8 @@ namespace SystAnalys_lr1
                                 (Math.Pow((V[E[i].v1].x - G.R - e.X), 2) + Math.Pow((V[E[i].v1].y - G.R - e.Y), 2) >= ((G.R - 2) * (G.R - 2))))
                             {
                                 E.RemoveAt(i);
+                                clearEdgesAllocate();
+                                listBoxMatrix.Items.Clear();
                                 flag = true;
                                 break;
                             }
@@ -286,6 +289,8 @@ namespace SystAnalys_lr1
                                     (V[E[i].v1].x >= V[E[i].v2].x && V[E[i].v1].x >= e.X && e.X >= V[E[i].v2].x))
                                 {
                                     E.RemoveAt(i);
+                                    clearEdgesAllocate();
+                                    listBoxMatrix.Items.Clear();
                                     flag = true;
                                     break;
                                 }
