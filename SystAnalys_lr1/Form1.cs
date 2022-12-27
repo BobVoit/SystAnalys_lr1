@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.Json;
 
 namespace SystAnalys_lr1
 {
@@ -31,10 +32,26 @@ namespace SystAnalys_lr1
             sheet.Image = G.GetBitmap();
         }
 
+        public Form1(string json, string filename)
+        {
+            InitializeComponent();
+
+            GraphVE graphVE = JsonSerializer.Deserialize<GraphVE>(json);
+
+            this.filePath.Text = filename;
+            V = graphVE.vertex;
+            G = new DrawGraph(sheet.Width, sheet.Height);
+            E = graphVE.edges;
+            G.drawALLGraph(V, E);
+            matchings_Click(null, null);
+            sheet.Image = G.GetBitmap();
+            this.filePath.Text = filename;
+        }
+
         //кнопка - выбрать вершину
         private void selectButton_Click(object sender, EventArgs e)
         {
-            selectButton.Enabled = false;
+            // selectButton.Enabled = false;
             drawVertexButton.Enabled = true;
             drawEdgeButton.Enabled = true;
             deleteButton.Enabled = true;
@@ -49,7 +66,7 @@ namespace SystAnalys_lr1
         private void drawVertexButton_Click(object sender, EventArgs e)
         {
             drawVertexButton.Enabled = false;
-            selectButton.Enabled = true;
+            // selectButton.Enabled = true;
             drawEdgeButton.Enabled = true;
             deleteButton.Enabled = true;
             // clearEdgesAllocate();
@@ -62,7 +79,7 @@ namespace SystAnalys_lr1
         private void drawEdgeButton_Click(object sender, EventArgs e)
         {
             drawEdgeButton.Enabled = false;
-            selectButton.Enabled = true;
+            // selectButton.Enabled = true;
             drawVertexButton.Enabled = true;
             deleteButton.Enabled = true;
             // clearEdgesAllocate();
@@ -77,7 +94,7 @@ namespace SystAnalys_lr1
         private void deleteButton_Click(object sender, EventArgs e)
         {
             deleteButton.Enabled = false;
-            selectButton.Enabled = true;
+            // selectButton.Enabled = true;
             drawVertexButton.Enabled = true;
             drawEdgeButton.Enabled = true;
             // clearEdgesAllocate();
@@ -89,7 +106,7 @@ namespace SystAnalys_lr1
         //кнопка - удалить граф
         private void deleteALLButton_Click(object sender, EventArgs e)
         {
-            selectButton.Enabled = true;
+            // selectButton.Enabled = true;
             drawVertexButton.Enabled = true;
             drawEdgeButton.Enabled = true;
             deleteButton.Enabled = true;
@@ -102,6 +119,7 @@ namespace SystAnalys_lr1
                 E.Clear();
                 G.clearSheet();
                 sheet.Image = G.GetBitmap();
+                listBoxMatrix.Items.Clear();
             }
         }
 
@@ -120,42 +138,60 @@ namespace SystAnalys_lr1
         private void sheet_MouseClick(object sender, MouseEventArgs e)
         {
             //нажата кнопка "выбрать вершину", ищем степень вершины
-            if (selectButton.Enabled == false)
-            {
-                for (int i = 0; i < V.Count; i++)
-                {
-                    if (Math.Pow((V[i].x - e.X), 2) + Math.Pow((V[i].y - e.Y), 2) <= G.R * G.R)
-                    {
-                        if (selected1 != -1)
-                        {
-                            selected1 = -1;
-                            G.clearSheet();
-                            // clearEdgesAllocate();
-                            G.drawALLGraph(V, E);
-                            sheet.Image = G.GetBitmap();
-                        }
-                        if (selected1 == -1)
-                        {
-                            G.drawSelectedVertex(V[i].x, V[i].y);
-                            selected1 = i;
-                            sheet.Image = G.GetBitmap();
-                            createAdjAndOut();
-                            listBoxMatrix.Items.Clear();
-                            int degree = 0;
-                            for (int j = 0; j < V.Count; j++)
-                                degree += AMatrix[selected1, j];
-                            listBoxMatrix.Items.Add("Степень вершины №" + (selected1 + 1) + " равна " + degree);
-                            break;
-                        }
-                    }
-                }
-            }
+            //if (selectButton.Enabled == false)
+            //{
+            //    for (int i = 0; i < V.Count; i++)
+            //    {
+            //        if (Math.Pow((V[i].x - e.X), 2) + Math.Pow((V[i].y - e.Y), 2) <= G.R * G.R)
+            //        {
+            //            if (selected1 != -1)
+            //            {
+            //                selected1 = -1;
+            //                G.clearSheet();
+            //                // clearEdgesAllocate();
+            //                G.drawALLGraph(V, E);
+            //                sheet.Image = G.GetBitmap();
+            //            }
+            //            if (selected1 == -1)
+            //            {
+            //                G.drawSelectedVertex(V[i].x, V[i].y);
+            //                selected1 = i;
+            //                sheet.Image = G.GetBitmap();
+            //                createAdjAndOut();
+            //                listBoxMatrix.Items.Clear();
+            //                int degree = 0;
+            //                for (int j = 0; j < V.Count; j++)
+            //                    degree += AMatrix[selected1, j];
+            //                listBoxMatrix.Items.Add("Степень вершины №" + (selected1 + 1) + " равна " + degree);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
             //нажата кнопка "рисовать вершину"
             if (drawVertexButton.Enabled == false)
             {
-                V.Add(new Vertex(e.X, e.Y));
-                G.drawVertex(e.X, e.Y, V.Count.ToString());
-                sheet.Image = G.GetBitmap();
+                Vertex newVertex = new Vertex(e.X, e.Y);
+                bool res = true;
+                foreach (Vertex vertex in V)
+                {
+                    if (findDistance(newVertex, vertex) < (G.R * 1.5 + G.R))
+                    {
+                        res = false; 
+                        break;
+                    }
+                }
+
+                if (res)
+                {
+                    V.Add(newVertex);
+                    G.drawVertex(e.X, e.Y, ((char)('a' + (V.Count - 1))).ToString());
+                    sheet.Image = G.GetBitmap();
+                }
+                else
+                {
+                    MessageBox.Show("Нельзя добавить вершину близко относительно других");
+                }
             }
             //нажата кнопка "рисовать ребро"
             if (drawEdgeButton.Enabled == false)
@@ -428,13 +464,20 @@ namespace SystAnalys_lr1
         // ++
         private void matchings_Click(object sender, EventArgs e)
         {
+            if (V.Count == 0)
+            {
+                MessageBox.Show("Введите вершину!");
+                return;
+            }    
+
             listBoxMatrix.Items.Clear();
 
             List<Edge> matchingsList = findMaxMatchingVector(E);
 
-            foreach(Edge edge in matchingsList)
+            listBoxMatrix.Items.Add("Наибольшее паросочетание:");
+            foreach (Edge edge in matchingsList)
             {
-                listBoxMatrix.Items.Add((edge.v1 + 1) + " --- " + (edge.v2 + 1));
+                listBoxMatrix.Items.Add(((char)('a' + edge.v1)).ToString() + " --- " + ((char)('a' + edge.v2)).ToString());
             }
 
             foreach (Edge edge in E)
@@ -563,6 +606,16 @@ namespace SystAnalys_lr1
             G.drawALLGraph(V, E);
         }
 
+        private double findDistance(Vertex v1, Vertex v2)
+        {
+            return Math.Sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         // --
 
 
@@ -581,21 +634,108 @@ namespace SystAnalys_lr1
                 savedialog.Title = "Сохранить картинку как...";
                 savedialog.OverwritePrompt = true;
                 savedialog.CheckPathExists = true;
-                savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                // savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                savedialog.Filter = "Json files(*.json)|*.json|Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
                 savedialog.ShowHelp = true;
                 if (savedialog.ShowDialog() == DialogResult.OK)
                 {
+                    string fileNameForSave = savedialog.FileName;
+                    bool isJSON = fileNameForSave.Contains(".json");   
+
+                    if (isJSON)
+                    {
+                        try
+                        {
+                            GraphVE graphVE = new GraphVE(V, E);
+                            string json = JsonSerializer.Serialize<GraphVE>(graphVE);
+                            File.WriteAllText(savedialog.FileName, json);
+                            this.filePath.Text = savedialog.FileName;
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ошибка при сохранении файла JSON", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }   
+                    else
+                    {
+                        try
+                        {
+                            sheet.Image.Save(savedialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Невозможно сохранить изображение", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void saveInCurrent_Click(object sender, EventArgs e)
+        {
+            if (sheet.Image != null)
+            {
+                if (filePath.Text == "")
+                {
+                    SaveFileDialog savedialog = new SaveFileDialog();
+                    savedialog.Title = "Сохранить картинку как...";
+                    savedialog.OverwritePrompt = true;
+                    savedialog.CheckPathExists = true;
+                    // savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                    savedialog.Filter = "Json files(*.json)|*.json|Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                    savedialog.ShowHelp = true;
+                    if (savedialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string fileNameForSave = savedialog.FileName;
+                        bool isJSON = fileNameForSave.Contains(".json");
+
+                        if (isJSON)
+                        {
+                            try
+                            {
+                                GraphVE graphVE = new GraphVE(V, E);
+                                string json = JsonSerializer.Serialize<GraphVE>(graphVE);
+                                File.WriteAllText(fileNameForSave, json);
+                                filePath.Text = fileNameForSave;
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Ошибка при сохранении файла JSON", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                sheet.Image.Save(fileNameForSave, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Невозможно сохранить изображение", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
+                else
+                {
                     try
                     {
-                        sheet.Image.Save(savedialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        GraphVE graphVE = new GraphVE(V, E);
+                        string json = JsonSerializer.Serialize<GraphVE>(graphVE);
+                        File.WriteAllText(filePath.Text, json);
                     }
                     catch
                     {
-                        MessageBox.Show("Невозможно сохранить изображение", "Ошибка",
+                        MessageBox.Show("Ошибка при сохранении файла JSON", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
     }
 }

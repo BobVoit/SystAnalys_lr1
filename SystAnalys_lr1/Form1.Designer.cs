@@ -31,26 +31,28 @@
             this.listBoxMatrix = new System.Windows.Forms.ListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.about = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.matchings = new System.Windows.Forms.Button();
             this.deleteALLButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.drawEdgeButton = new System.Windows.Forms.Button();
             this.drawVertexButton = new System.Windows.Forms.Button();
             this.sheet = new System.Windows.Forms.PictureBox();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.matchings = new System.Windows.Forms.Button();
+            this.saveInCurrent = new System.Windows.Forms.Button();
+            this.filePath = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sheet)).BeginInit();
             this.SuspendLayout();
             // 
             // listBoxMatrix
             // 
+            this.listBoxMatrix.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxMatrix.FormattingEnabled = true;
-            this.listBoxMatrix.ItemHeight = 20;
-            this.listBoxMatrix.Location = new System.Drawing.Point(1100, 49);
+            this.listBoxMatrix.ItemHeight = 25;
+            this.listBoxMatrix.Location = new System.Drawing.Point(1100, 99);
             this.listBoxMatrix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBoxMatrix.Name = "listBoxMatrix";
-            this.listBoxMatrix.Size = new System.Drawing.Size(324, 484);
+            this.listBoxMatrix.Size = new System.Drawing.Size(324, 429);
             this.listBoxMatrix.TabIndex = 6;
             // 
             // menuStrip1
@@ -61,7 +63,7 @@
             this.about});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1454, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1454, 33);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -69,84 +71,18 @@
             // 
             this.about.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.about.Name = "about";
-            this.about.Size = new System.Drawing.Size(141, 30);
+            this.about.Size = new System.Drawing.Size(141, 29);
             this.about.Text = "О программе";
             this.about.Click += new System.EventHandler(this.about_Click);
             // 
-            // selectButton
-            // 
-            this.selectButton.Image = global::SystAnalys_lr1.Properties.Resources.cursor;
-            this.selectButton.Location = new System.Drawing.Point(18, 18);
-            this.selectButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.selectButton.Name = "selectButton";
-            this.selectButton.Size = new System.Drawing.Size(68, 69);
-            this.selectButton.TabIndex = 9;
-            this.selectButton.UseVisualStyleBackColor = true;
-            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
-            // 
-            // deleteALLButton
-            // 
-            this.deleteALLButton.Image = global::SystAnalys_lr1.Properties.Resources.deleteAll;
-            this.deleteALLButton.Location = new System.Drawing.Point(20, 334);
-            this.deleteALLButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deleteALLButton.Name = "deleteALLButton";
-            this.deleteALLButton.Size = new System.Drawing.Size(68, 69);
-            this.deleteALLButton.TabIndex = 5;
-            this.deleteALLButton.UseVisualStyleBackColor = true;
-            this.deleteALLButton.Click += new System.EventHandler(this.deleteALLButton_Click);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Image = global::SystAnalys_lr1.Properties.Resources.delete;
-            this.deleteButton.Location = new System.Drawing.Point(20, 255);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(68, 69);
-            this.deleteButton.TabIndex = 3;
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
-            // drawEdgeButton
-            // 
-            this.drawEdgeButton.Image = global::SystAnalys_lr1.Properties.Resources.edge;
-            this.drawEdgeButton.Location = new System.Drawing.Point(18, 177);
-            this.drawEdgeButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.drawEdgeButton.Name = "drawEdgeButton";
-            this.drawEdgeButton.Size = new System.Drawing.Size(68, 69);
-            this.drawEdgeButton.TabIndex = 2;
-            this.drawEdgeButton.UseVisualStyleBackColor = true;
-            this.drawEdgeButton.Click += new System.EventHandler(this.drawEdgeButton_Click);
-            // 
-            // drawVertexButton
-            // 
-            this.drawVertexButton.Image = global::SystAnalys_lr1.Properties.Resources.vertex;
-            this.drawVertexButton.Location = new System.Drawing.Point(20, 98);
-            this.drawVertexButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.drawVertexButton.Name = "drawVertexButton";
-            this.drawVertexButton.Size = new System.Drawing.Size(68, 69);
-            this.drawVertexButton.TabIndex = 1;
-            this.drawVertexButton.UseVisualStyleBackColor = true;
-            this.drawVertexButton.Click += new System.EventHandler(this.drawVertexButton_Click);
-            // 
-            // sheet
-            // 
-            this.sheet.BackColor = System.Drawing.SystemColors.Control;
-            this.sheet.Location = new System.Drawing.Point(105, 18);
-            this.sheet.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.sheet.Name = "sheet";
-            this.sheet.Size = new System.Drawing.Size(951, 638);
-            this.sheet.TabIndex = 0;
-            this.sheet.TabStop = false;
-            this.sheet.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sheet_MouseClick);
-            // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(1188, 629);
+            this.saveButton.Location = new System.Drawing.Point(1274, 621);
             this.saveButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(144, 35);
+            this.saveButton.Size = new System.Drawing.Size(150, 35);
             this.saveButton.TabIndex = 13;
-            this.saveButton.Text = "Сохранить граф";
+            this.saveButton.Text = "Сохранить как...";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
@@ -161,14 +97,89 @@
             this.matchings.UseVisualStyleBackColor = true;
             this.matchings.Click += new System.EventHandler(this.matchings_Click);
             // 
+            // deleteALLButton
+            // 
+            this.deleteALLButton.Image = global::SystAnalys_lr1.Properties.Resources.deleteAll;
+            this.deleteALLButton.Location = new System.Drawing.Point(20, 255);
+            this.deleteALLButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deleteALLButton.Name = "deleteALLButton";
+            this.deleteALLButton.Size = new System.Drawing.Size(68, 69);
+            this.deleteALLButton.TabIndex = 5;
+            this.deleteALLButton.UseVisualStyleBackColor = true;
+            this.deleteALLButton.Click += new System.EventHandler(this.deleteALLButton_Click);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Image = global::SystAnalys_lr1.Properties.Resources.delete;
+            this.deleteButton.Location = new System.Drawing.Point(20, 176);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(68, 69);
+            this.deleteButton.TabIndex = 3;
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // drawEdgeButton
+            // 
+            this.drawEdgeButton.Image = global::SystAnalys_lr1.Properties.Resources.edge;
+            this.drawEdgeButton.Location = new System.Drawing.Point(20, 97);
+            this.drawEdgeButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.drawEdgeButton.Name = "drawEdgeButton";
+            this.drawEdgeButton.Size = new System.Drawing.Size(68, 69);
+            this.drawEdgeButton.TabIndex = 2;
+            this.drawEdgeButton.UseVisualStyleBackColor = true;
+            this.drawEdgeButton.Click += new System.EventHandler(this.drawEdgeButton_Click);
+            // 
+            // drawVertexButton
+            // 
+            this.drawVertexButton.Image = global::SystAnalys_lr1.Properties.Resources.vertex;
+            this.drawVertexButton.Location = new System.Drawing.Point(20, 18);
+            this.drawVertexButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.drawVertexButton.Name = "drawVertexButton";
+            this.drawVertexButton.Size = new System.Drawing.Size(68, 69);
+            this.drawVertexButton.TabIndex = 1;
+            this.drawVertexButton.UseVisualStyleBackColor = true;
+            this.drawVertexButton.Click += new System.EventHandler(this.drawVertexButton_Click);
+            // 
+            // sheet
+            // 
+            this.sheet.BackColor = System.Drawing.SystemColors.Control;
+            this.sheet.Location = new System.Drawing.Point(105, 99);
+            this.sheet.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.sheet.Name = "sheet";
+            this.sheet.Size = new System.Drawing.Size(951, 557);
+            this.sheet.TabIndex = 0;
+            this.sheet.TabStop = false;
+            this.sheet.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sheet_MouseClick);
+            // 
+            // saveInCurrent
+            // 
+            this.saveInCurrent.Location = new System.Drawing.Point(1100, 621);
+            this.saveInCurrent.Name = "saveInCurrent";
+            this.saveInCurrent.Size = new System.Drawing.Size(167, 35);
+            this.saveInCurrent.TabIndex = 15;
+            this.saveInCurrent.Text = "Сохранить";
+            this.saveInCurrent.UseVisualStyleBackColor = true;
+            this.saveInCurrent.Click += new System.EventHandler(this.saveInCurrent_Click);
+            // 
+            // filePath
+            // 
+            this.filePath.Enabled = false;
+            this.filePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.filePath.Location = new System.Drawing.Point(105, 47);
+            this.filePath.Name = "filePath";
+            this.filePath.Size = new System.Drawing.Size(951, 30);
+            this.filePath.TabIndex = 16;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 683);
+            this.Controls.Add(this.filePath);
+            this.Controls.Add(this.saveInCurrent);
             this.Controls.Add(this.matchings);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.selectButton);
             this.Controls.Add(this.listBoxMatrix);
             this.Controls.Add(this.deleteALLButton);
             this.Controls.Add(this.deleteButton);
@@ -196,11 +207,12 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button deleteALLButton;
         private System.Windows.Forms.ListBox listBoxMatrix;
-        private System.Windows.Forms.Button selectButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem about;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button matchings;
+        private System.Windows.Forms.Button saveInCurrent;
+        private System.Windows.Forms.TextBox filePath;
     }
 }
 
