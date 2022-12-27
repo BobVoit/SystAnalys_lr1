@@ -23,6 +23,9 @@ namespace SystAnalys_lr1
         int selected1; //выбранные вершины, для соединения линиями
         int selected2;
 
+        public bool closeApp;
+        public bool back;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +33,7 @@ namespace SystAnalys_lr1
             G = new DrawGraph(sheet.Width, sheet.Height);
             E = new List<Edge>();
             sheet.Image = G.GetBitmap();
+            this.closeApp = true;
         }
 
         public Form1(string json, string filename)
@@ -46,6 +50,7 @@ namespace SystAnalys_lr1
             matchings_Click(null, null);
             sheet.Image = G.GetBitmap();
             this.filePath.Text = filename;
+            this.closeApp = true;
         }
 
         //кнопка - выбрать вершину
@@ -189,7 +194,10 @@ namespace SystAnalys_lr1
                 }
                 else
                 {
-                    MessageBox.Show("Нельзя добавить вершину близко относительно других");
+                    if (listBoxMatrix.Items.Count > 0 && listBoxMatrix.ForeColor != Color.Red)
+                        listBoxMatrix.Items.Clear(); 
+                    listBoxMatrix.Items.Add("Вершина находится близко!");
+                    listBoxMatrix.ForeColor = Color.Red;
                 }
             }
             //нажата кнопка "рисовать ребро"
@@ -476,6 +484,7 @@ namespace SystAnalys_lr1
             }    
 
             listBoxMatrix.Items.Clear();
+            listBoxMatrix.ForeColor = Color.Black;
 
             List<Edge> matchingsList = findMaxMatchingVector(E);
 
@@ -636,11 +645,11 @@ namespace SystAnalys_lr1
             if (sheet.Image != null)
             {
                 SaveFileDialog savedialog = new SaveFileDialog();
-                savedialog.Title = "Сохранить картинку как...";
+                savedialog.Title = "Сохранить проект как...";
                 savedialog.OverwritePrompt = true;
                 savedialog.CheckPathExists = true;
                 // savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
-                savedialog.Filter = "Json files(*.json)|*.json|Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                savedialog.Filter = "Json files(*.json)|*.json";
                 savedialog.ShowHelp = true;
                 if (savedialog.ShowDialog() == DialogResult.OK)
                 {
@@ -655,6 +664,7 @@ namespace SystAnalys_lr1
                             string json = JsonSerializer.Serialize<GraphVE>(graphVE);
                             File.WriteAllText(savedialog.FileName, json);
                             this.filePath.Text = savedialog.FileName;
+                            MessageBox.Show("Проект сохранен!");
                         }
                         catch
                         {
@@ -675,6 +685,10 @@ namespace SystAnalys_lr1
                         }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Проект не сохранен!");
+                }
             }
         }
 
@@ -689,7 +703,7 @@ namespace SystAnalys_lr1
                     savedialog.OverwritePrompt = true;
                     savedialog.CheckPathExists = true;
                     // savedialog.Filter = "Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
-                    savedialog.Filter = "Json files(*.json)|*.json|Image Files(*.BMP)|*.BMP|Image Files(*.JPG)|*.JPG|Image Files(*.GIF)|*.GIF|Image Files(*.PNG)|*.PNG|All files (*.*)|*.*";
+                    savedialog.Filter = "Json files(*.json)|*.json";
                     savedialog.ShowHelp = true;
                     if (savedialog.ShowDialog() == DialogResult.OK)
                     {
@@ -704,6 +718,7 @@ namespace SystAnalys_lr1
                                 string json = JsonSerializer.Serialize<GraphVE>(graphVE);
                                 File.WriteAllText(fileNameForSave, json);
                                 filePath.Text = fileNameForSave;
+                                MessageBox.Show("Проект сохранен!");
                             }
                             catch
                             {
@@ -724,6 +739,10 @@ namespace SystAnalys_lr1
                             }
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("Проект не сохранен!");
+                    }
                 }
                 else
                 {
@@ -732,6 +751,7 @@ namespace SystAnalys_lr1
                         GraphVE graphVE = new GraphVE(V, E);
                         string json = JsonSerializer.Serialize<GraphVE>(graphVE);
                         File.WriteAllText(filePath.Text, json);
+                        MessageBox.Show("Проект сохранен!");
                     }
                     catch
                     {
@@ -742,5 +762,32 @@ namespace SystAnalys_lr1
             }
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.back)
+                return;
+
+            DialogResult res = (new CloseForm()).ShowDialog();
+
+            if (res == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+            else if (res == DialogResult.OK)
+            {
+                this.closeApp = true;
+            }
+            else if (res == DialogResult.No) 
+            {
+                this.closeApp = false;
+            }
+           
+        }
+        private void backInMainMenu_Click(object sender, EventArgs e)
+        {
+            this.back = true;
+            this.closeApp = false;
+            this.Close();
+        }
     }
 }

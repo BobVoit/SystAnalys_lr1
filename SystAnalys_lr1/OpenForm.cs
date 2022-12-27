@@ -20,9 +20,16 @@ namespace SystAnalys_lr1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // this.Hide();
+            this.Hide();
             Form1 form = new Form1();
-            // form.Closed += (s, args) => this.Close();
+            form.Closed += (s, args) =>
+            {
+                Form1 form1form1 = (Form1)s;
+                if (form1form1.closeApp)
+                    this.Close();
+                else
+                    this.Show();
+            };
             form.ShowDialog();
         }
 
@@ -37,11 +44,23 @@ namespace SystAnalys_lr1
             {
                 string filename = openFile.FileName;
                 string readFile = File.ReadAllText(filename);
-                // this.Hide();
+                this.Hide();
                 Form1 form = new Form1(readFile, filename);
-                // form.Closed += (s, args) => this.Close();
+                form.Closed += (s, args) =>
+                {
+                    Form1 form1form1 = (Form1)s;
+                    if (form1form1.closeApp)
+                        this.Close();
+                    else
+                        this.Show();
+                };
                 form.ShowDialog();
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
