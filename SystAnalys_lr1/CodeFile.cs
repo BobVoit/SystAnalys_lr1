@@ -36,6 +36,7 @@ namespace SystAnalys_lr1
             this.v1 = v1;
             this.v2 = v2;
             // ++
+            // Свойство пометки графа.
             this.allocate = allocate;
             // --
         }

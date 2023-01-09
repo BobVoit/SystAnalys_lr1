@@ -18,6 +18,7 @@ namespace SystAnalys_lr1
             InitializeComponent();
         }
 
+        // Открыть новый проект.
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -33,6 +34,7 @@ namespace SystAnalys_lr1
             form.ShowDialog();
         }
 
+        // Загрузить проект.
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -58,6 +60,7 @@ namespace SystAnalys_lr1
             }
         }
 
+        // Закрыть программу.
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();

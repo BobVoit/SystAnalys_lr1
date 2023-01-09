@@ -17,18 +17,21 @@ namespace SystAnalys_lr1
             InitializeComponent();
         }
 
+        // Закрыть форму диалогового окна.
         private void CloseApp_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
+        // Закрыть форму диалогового окна и перейти в меню.
         private void BackInMainMenu_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.No;
             this.Close();
         }
 
+        // Закрыть форму диалогового окна и вернуться обратно на форму работы с графом.
         private void CancelClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

@@ -141,37 +141,6 @@ namespace SystAnalys_lr1
 
         private void sheet_MouseClick(object sender, MouseEventArgs e)
         {
-            //нажата кнопка "выбрать вершину", ищем степень вершины
-            //if (selectButton.Enabled == false)
-            //{
-            //    for (int i = 0; i < V.Count; i++)
-            //    {
-            //        if (Math.Pow((V[i].x - e.X), 2) + Math.Pow((V[i].y - e.Y), 2) <= G.R * G.R)
-            //        {
-            //            if (selected1 != -1)
-            //            {
-            //                selected1 = -1;
-            //                G.clearSheet();
-            //                // clearEdgesAllocate();
-            //                G.drawALLGraph(V, E);
-            //                sheet.Image = G.GetBitmap();
-            //            }
-            //            if (selected1 == -1)
-            //            {
-            //                G.drawSelectedVertex(V[i].x, V[i].y);
-            //                selected1 = i;
-            //                sheet.Image = G.GetBitmap();
-            //                createAdjAndOut();
-            //                listBoxMatrix.Items.Clear();
-            //                int degree = 0;
-            //                for (int j = 0; j < V.Count; j++)
-            //                    degree += AMatrix[selected1, j];
-            //                listBoxMatrix.Items.Add("Степень вершины №" + (selected1 + 1) + " равна " + degree);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
             //нажата кнопка "рисовать вершину"
             if (drawVertexButton.Enabled == false)
             {
@@ -475,6 +444,7 @@ namespace SystAnalys_lr1
         }
 
         // ++
+        // Событие для кнопки расчета
         private void matchings_Click(object sender, EventArgs e)
         {
             if (V.Count == 0)
@@ -511,6 +481,7 @@ namespace SystAnalys_lr1
             sheet.Image = G.GetBitmap();
         }
 
+        // Поиск максимального соответствия
         private List<Edge> findMaxMatchingVector(List<Edge> E)
         {
             List<Edge> maxMatching = new List<Edge>();
@@ -531,6 +502,7 @@ namespace SystAnalys_lr1
             return maxMatching;
         }
 
+        // Поиск всех соответствий
         private List<Edge> findAllMatchings(List<Edge> E, Edge edge)
         {     
             List<Edge> matchingsList = new List<Edge> { };
@@ -552,6 +524,7 @@ namespace SystAnalys_lr1
             return matchingsList;
         }
 
+        // Поиск наибольшего соответствия между ребер.
         private List<Edge> findMaxMatchingFromList(List<Edge> edges) 
         {
             if (!hasMatchingPoints(edges))
@@ -593,6 +566,7 @@ namespace SystAnalys_lr1
             return maxMatchings;
         }
 
+        // Проверка вершин ребра на сооветствие вершинами графа
         private bool hasMatchingPoints(List<Edge> edges)
         {
             for (int i = 0; i < edges.Count; i++)
@@ -609,6 +583,7 @@ namespace SystAnalys_lr1
             return false;
         }
 
+        // Очищение пометки для ребер.
         private void clearEdgesAllocate()
         {
             foreach (Edge edge in E)
@@ -620,14 +595,10 @@ namespace SystAnalys_lr1
             G.drawALLGraph(V, E);
         }
 
+        // Поиск расстояния между вершинами
         private double findDistance(Vertex v1, Vertex v2)
         {
             return Math.Sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
 
         // --
@@ -640,6 +611,7 @@ namespace SystAnalys_lr1
             FormAbout.ShowDialog();
         }
 
+        // Сохранение графа в файл через диалог сохранения
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (sheet.Image != null)
@@ -692,6 +664,7 @@ namespace SystAnalys_lr1
             }
         }
 
+        // Сохранеие графа в текущий открытий файл
         private void saveInCurrent_Click(object sender, EventArgs e)
         {
             if (sheet.Image != null)
@@ -762,6 +735,7 @@ namespace SystAnalys_lr1
             }
         }
 
+        // Событие закрытия формы.
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.back)
